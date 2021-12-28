@@ -1,9 +1,9 @@
 ﻿using System;
-using LightlessAbyss.AbyssEngine.CustomMath;
+using AbyssEngine.CustomMath;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace LightlessAbyss.AbyssEngine.Backend.Rendering
+namespace AbyssEngine.Backend.Rendering
 {
     public sealed class GameScreen : IDisposable
     {

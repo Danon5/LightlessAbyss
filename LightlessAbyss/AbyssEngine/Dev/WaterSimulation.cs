@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using LightlessAbyss.AbyssEngine.CustomMath;
+using AbyssEngine.CustomMath;
 
-namespace LightlessAbyss.AbyssEngine.Dev
+namespace AbyssEngine.Dev
 {
     public sealed class WaterSimulation
     {

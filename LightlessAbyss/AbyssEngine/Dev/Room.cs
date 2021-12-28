@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using LightlessAbyss.AbyssEngine.CustomMath;
+using AbyssEngine.CustomMath;
 
-namespace LightlessAbyss.AbyssEngine.Dev
+namespace AbyssEngine.Dev
 {
     public class Room
     {

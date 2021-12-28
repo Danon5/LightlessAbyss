@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LightlessAbyss.AbyssEngine.Backend
+namespace AbyssEngine.Backend
 {
     public static class Program
     {

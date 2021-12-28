@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Input;
 
-namespace LightlessAbyss.AbyssEngine
+namespace AbyssEngine
 {
     public class KeyBind : IControlsBind
     {

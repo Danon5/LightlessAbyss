@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using LightlessAbyss.AbyssEngine.Backend.Rendering;
-using LightlessAbyss.AbyssEngine.Content;
-using LightlessAbyss.AbyssEngine.CustomMath;
+using AbyssEngine.Backend.Rendering;
+using AbyssEngine.CustomMath;
+using AbyssEngine.GameContent;
 using Microsoft.Xna.Framework;
 
-namespace LightlessAbyss.AbyssEngine.Backend
+namespace AbyssEngine.Backend
 {
     public sealed class Engine : Game
     {

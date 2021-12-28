@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Content;
 
-namespace LightlessAbyss.AbyssEngine.Content
+namespace AbyssEngine.GameContent
 {
     public sealed class ContentLoader
     {

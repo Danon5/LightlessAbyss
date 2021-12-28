@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LightlessAbyss.AbyssEngine.Dev
+namespace AbyssEngine.Dev
 {
     public sealed class WaterCell
     {

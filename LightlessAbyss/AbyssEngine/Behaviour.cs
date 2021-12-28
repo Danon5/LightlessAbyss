@@ -1,6 +1,7 @@
-﻿using LightlessAbyss.AbyssEngine.Backend;
+﻿using System;
+using AbyssEngine.Backend;
 
-namespace LightlessAbyss.AbyssEngine
+namespace AbyssEngine
 {
     public abstract class Behaviour : IEntityComponent, IDestroyable
     {
@@ -22,7 +23,11 @@ namespace LightlessAbyss.AbyssEngine
             IsDestroyed = true;
         }
         
-        public override bool Equals(object? obj) => obj is null ? IsDestroyed : ReferenceEquals(this, obj);
+        protected bool Equals(Behaviour other) => ReferenceEquals(this, other);
+        
+        public override int GetHashCode() => HashCode.Combine(this);
+        
+        public override bool Equals(object obj) => obj is null ? IsDestroyed : ReferenceEquals(this, obj);
 
         public static bool operator ==(Behaviour left, Behaviour right)
         {

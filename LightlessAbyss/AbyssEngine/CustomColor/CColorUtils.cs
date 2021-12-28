@@ -1,4 +1,4 @@
-﻿namespace LightlessAbyss.AbyssEngine.CustomColor
+﻿namespace AbyssEngine.CustomColor
 {
     public static class CColorUtils
     {

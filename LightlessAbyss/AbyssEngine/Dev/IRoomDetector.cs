@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace LightlessAbyss.AbyssEngine.Dev
+namespace AbyssEngine.Dev
 {
     public interface IRoomDetector
     {

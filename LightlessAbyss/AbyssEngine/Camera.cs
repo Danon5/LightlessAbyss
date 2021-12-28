@@ -1,9 +1,9 @@
 ﻿using System.Drawing;
-using LightlessAbyss.AbyssEngine.Backend.Rendering;
-using LightlessAbyss.AbyssEngine.CustomMath;
+using AbyssEngine.Backend.Rendering;
+using AbyssEngine.CustomMath;
 using Microsoft.Xna.Framework;
 
-namespace LightlessAbyss.AbyssEngine
+namespace AbyssEngine
 {
     public class Camera
     {

@@ -1,4 +1,4 @@
-﻿namespace LightlessAbyss.AbyssEngine.Backend
+﻿namespace AbyssEngine
 {
     public interface IGameEntryPoint
     {

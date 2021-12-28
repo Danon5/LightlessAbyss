@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using LightlessAbyss.AbyssEngine.CustomMath;
+using AbyssEngine.CustomMath;
 using Microsoft.Xna.Framework;
 
-namespace LightlessAbyss.AbyssEngine.Dev
+namespace AbyssEngine.Dev
 {
     public class Structure
     {
