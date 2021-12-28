@@ -1,8 +1,8 @@
 ﻿using System;
-using LightlessAbyss.AbyssEngine.CustomMath;
+using AbyssEngine.CustomMath;
 using Microsoft.Xna.Framework.Input;
 
-namespace LightlessAbyss.AbyssEngine
+namespace AbyssEngine
 {
     public static class MouseStateTracker
     {

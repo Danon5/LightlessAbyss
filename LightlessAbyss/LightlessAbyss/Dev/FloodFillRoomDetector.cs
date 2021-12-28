@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using LightlessAbyss.AbyssEngine.CustomMath;
+using AbyssEngine;
+using AbyssEngine.CustomMath;
 
-namespace LightlessAbyss.AbyssEngine.Dev
+namespace LightlessAbyss.Dev
 {
     public sealed class FloodFillRoomDetector : IRoomDetector
     {

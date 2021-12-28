@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace LightlessAbyss.AbyssEngine.Content
+namespace AbyssEngine.GameContent
 {
     public sealed class TextureLoadPass : IContentLoadPass
     {

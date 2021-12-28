@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace LightlessAbyss.AbyssEngine.Content
+namespace AbyssEngine.GameContent
 {
     public static class ContentDatabase
     {

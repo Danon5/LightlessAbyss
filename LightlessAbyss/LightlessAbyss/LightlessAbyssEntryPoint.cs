@@ -1,13 +1,14 @@
-﻿using LightlessAbyss.AbyssEngine;
-using LightlessAbyss.AbyssEngine.Backend;
+﻿using AbyssEngine;
 
 namespace LightlessAbyss
 {
     public sealed class LightlessAbyssEntryPoint : IGameEntryPoint
     {
+        private GameManager _gameManager;
+        
         public void StartGame()
         {
-            Entity exampleEntity = new Entity();
+            _gameManager = new GameManager();
         }
     }
 }

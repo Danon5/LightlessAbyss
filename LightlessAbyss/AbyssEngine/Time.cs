@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace LightlessAbyss.AbyssEngine
+namespace AbyssEngine
 {
     public static class Time
     {

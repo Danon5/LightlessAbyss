@@ -1,9 +1,9 @@
 ﻿using System.Drawing;
-using LightlessAbyss.AbyssEngine.Backend.Rendering;
-using LightlessAbyss.AbyssEngine.CustomMath;
+using AbyssEngine.Backend.Rendering;
+using AbyssEngine.CustomMath;
 using Microsoft.Xna.Framework;
 
-namespace LightlessAbyss.AbyssEngine
+namespace AbyssEngine
 {
     public class Camera
     {
@@ -102,7 +102,7 @@ namespace LightlessAbyss.AbyssEngine
 
         private CVector2 ClampInScreen(CVector2 screenPos)
         {
-            return CMathUtils.Clamp(screenPos, CVector2.Zero, EngineRenderer.RawGameViewport.Bounds.Size);
+            return CMath.Clamp(screenPos, CVector2.Zero, EngineRenderer.RawGameViewport.Bounds.Size);
         }
 
         private void UpdateMatrix()
@@ -114,12 +114,12 @@ namespace LightlessAbyss.AbyssEngine
 
             if (SnapToPPU)
             {
-                pos = CMathUtils.SnapToPPU(pos, EngineRenderer.PPU);
-                centerOffset = CMathUtils.SnapToPPU(centerOffset, EngineRenderer.PPU);
+                pos = CMath.SnapToPPU(pos, EngineRenderer.PPU);
+                centerOffset = CMath.SnapToPPU(centerOffset, EngineRenderer.PPU);
             }
 
             _matrix = Matrix.CreateTranslation(-pos.x, -pos.y, 0f) *
-                      Matrix.CreateRotationZ(_rotation * CMathUtils.DEG2RAD) *
+                      Matrix.CreateRotationZ(_rotation * CMath.DEG2RAD) *
                       Matrix.CreateScale(viewScale, viewScale, 1f) *
                       Matrix.CreateTranslation(centerOffset.x, centerOffset.y, 0f);
 

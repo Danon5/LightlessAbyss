@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace LightlessAbyss.AbyssEngine
+namespace AbyssEngine
 {
     public class Entity : IDestroyable
     {
@@ -45,7 +45,11 @@ namespace LightlessAbyss.AbyssEngine
             IsDestroyed = true;
         }
 
-        public override bool Equals(object? obj) => obj is null ? IsDestroyed : ReferenceEquals(this, obj);
+        protected bool Equals(Entity other) => ReferenceEquals(this, other);
+        
+        public override int GetHashCode() => HashCode.Combine(this, _components);
+        
+        public override bool Equals(object obj) => obj is null ? IsDestroyed : ReferenceEquals(this, obj);
 
         public static bool operator ==(Entity left, Entity right)
         {

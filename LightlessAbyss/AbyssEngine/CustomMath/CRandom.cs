@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LightlessAbyss.AbyssEngine.CustomMath
+namespace AbyssEngine.CustomMath
 {
     public static class CRandom
     {

@@ -1,4 +1,4 @@
-﻿namespace LightlessAbyss.AbyssEngine.Content
+﻿namespace AbyssEngine.GameContent
 {
     public enum TextureId
     {

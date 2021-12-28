@@ -1,9 +1,9 @@
 ﻿using System;
-using LightlessAbyss.AbyssEngine.CustomMath;
+using AbyssEngine.CustomMath;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace LightlessAbyss.AbyssEngine.Backend.Rendering
+namespace AbyssEngine.Backend.Rendering
 {
     public sealed class PolygonRenderer : IDisposable
     {
@@ -99,8 +99,8 @@ namespace LightlessAbyss.AbyssEngine.Backend.Rendering
                 throw new Exception("Cannot batch draw with no batch started!");
             
             color ??= Color.White;
-            
-            pos -= new CVector2(.5f, .5f);
+
+            pos -= size / 2f;
 
             CVector2 botLeft = pos;
             CVector2 topLeft = new CVector2(pos.x, pos.y + size.y);

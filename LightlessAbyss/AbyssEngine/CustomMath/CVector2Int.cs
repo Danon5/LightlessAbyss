@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 
-namespace LightlessAbyss.AbyssEngine.CustomMath
+namespace AbyssEngine.CustomMath
 {
     public struct CVector2Int
     {

@@ -1,4 +1,4 @@
-﻿namespace LightlessAbyss.AbyssEngine
+﻿namespace AbyssEngine
 {
     public class MouseButtonBind : IControlsBind
     {

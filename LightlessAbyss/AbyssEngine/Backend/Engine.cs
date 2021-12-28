@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using LightlessAbyss.AbyssEngine.Backend.Rendering;
-using LightlessAbyss.AbyssEngine.Content;
-using LightlessAbyss.AbyssEngine.CustomMath;
+using AbyssEngine.Backend.Rendering;
+using AbyssEngine.GameContent;
+using LightlessAbyss;
 using Microsoft.Xna.Framework;
 
-namespace LightlessAbyss.AbyssEngine.Backend
+namespace AbyssEngine.Backend
 {
     public sealed class Engine : Game
     {
@@ -13,7 +13,9 @@ namespace LightlessAbyss.AbyssEngine.Backend
 
         private static Engine _singleton;
 
-        private static List<Behaviour> _behaviours;
+        public List<Behaviour> Behaviours => _behaviours;
+        
+        private List<Behaviour> _behaviours;
         
         private ContentLoader _contentLoader;
         private EngineRenderer _engineRenderer;
@@ -34,18 +36,19 @@ namespace LightlessAbyss.AbyssEngine.Backend
 
         public static void RegisterBehaviour(Behaviour behaviour)
         {
-            if (_behaviours.Contains(behaviour))
+            if (_singleton._behaviours.Contains(behaviour))
                 throw new Exception("Attempting to register a Behaviour multiple times.");
             
-            _behaviours.Add(behaviour);
+            _singleton._behaviours.Add(behaviour);
+            behaviour.Initialize();
         }
 
         public static void UnregisterBehaviour(Behaviour behaviour)
         {
-            if (!_behaviours.Contains(behaviour))
+            if (!_singleton._behaviours.Contains(behaviour))
                 throw new Exception("Attempting to unregister Drawable that is not currently registered.");
 
-            _behaviours.Remove(behaviour);
+            _singleton._behaviours.Remove(behaviour);
         }
 
         protected override void Initialize()
@@ -82,69 +85,33 @@ namespace LightlessAbyss.AbyssEngine.Backend
         {
             _gameEntryPoint = new LightlessAbyssEntryPoint();
             _gameEntryPoint.StartGame();
-            InitializeBehaviours();
         }
 
-        private void InitializeBehaviours()
-        {
-            foreach (Behaviour behaviour in _behaviours)
-                behaviour.Initialize();
-        }
-
-        private float _desiredOrthographicSize = 1f;
-        private CVector2 _camVel = CVector2.Zero;
         protected override void Update(GameTime gameTime)
         {
             Time.EngineUpdateGameTime(gameTime);
             
             _inputPoller.Poll();
 
-            _desiredOrthographicSize -= Controls.MouseScrollDelta * .1f * _desiredOrthographicSize;
-            _desiredOrthographicSize = Math.Clamp(_desiredOrthographicSize, .01f, 25f);
-            Camera.Main.OrthographicSize = 
-                CMathUtils.Lerp(Camera.Main.OrthographicSize, _desiredOrthographicSize, 15f * Time.DeltaTime);
-
-            CVector2 axis = new CVector2();
-
-            if (Controls.Up.IsHeld)
-                axis.y += 1;
-            if (Controls.Down.IsHeld)
-                axis.y -= 1;
-            if (Controls.Right.IsHeld)
-                axis.x += 1;
-            if (Controls.Left.IsHeld)
-                axis.x -= 1;
-
-            axis = axis.Normalized;
-
-            CVector2 desiredVel = CVector2.Zero;
-
-            if (axis.Magnitude > 0f)
-                desiredVel = axis * (Controls.Sprint.IsHeld ? 5f : 2.5f);
-            
-            _camVel = CVector2.Lerp(_camVel, desiredVel, 15f * Time.DeltaTime);
-
-            Camera.Main.Position += _camVel * (Camera.Main.OrthographicSize * Time.DeltaTime);
-
             foreach (Behaviour behaviour in _behaviours)
             {
                 if (behaviour.IsDestroyed)
                     throw new Exception("EarlyUpdate being called on Behaviour, but it has already been destroyed.");
-                behaviour.EarlyUpdate();
+                behaviour.EarlyTick();
             }
 
             foreach (Behaviour behaviour in _behaviours)
             {
                 if (behaviour.IsDestroyed)
                     throw new Exception("Update being called on Behaviour, but it has already been destroyed.");
-                behaviour.Update();
+                behaviour.Tick();
             }
 
             foreach (Behaviour behaviour in _behaviours)
             {
                 if (behaviour.IsDestroyed)
                     throw new Exception("LateUpdate being called on Behaviour, but it has already been destroyed.");
-                behaviour.LateUpdate();
+                behaviour.LateTick();
             }
             
             base.Update(gameTime);
@@ -152,7 +119,7 @@ namespace LightlessAbyss.AbyssEngine.Backend
 
         protected override void Draw(GameTime gameTime)
         {
-            _engineRenderer.RenderAll();
+            _engineRenderer.RenderNewFrame();
 
             base.Draw(gameTime);
         }

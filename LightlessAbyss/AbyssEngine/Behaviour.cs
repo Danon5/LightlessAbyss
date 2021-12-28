@@ -1,20 +1,22 @@
-﻿using LightlessAbyss.AbyssEngine.Backend;
+﻿using System;
+using AbyssEngine.Backend;
 
-namespace LightlessAbyss.AbyssEngine
+namespace AbyssEngine
 {
     public abstract class Behaviour : IEntityComponent, IDestroyable
     {
         public bool IsDestroyed { get; private set; }
-        
-        private Behaviour()
+
+        protected Behaviour()
         {
             Engine.RegisterBehaviour(this);
         }
         
         public virtual void Initialize() { }
-        public virtual void EarlyUpdate() { }
-        public virtual void Update() { }
-        public virtual void LateUpdate() { }
+        public virtual void EarlyTick() { }
+        public virtual void Tick() { }
+        public virtual void LateTick() { }
+        public virtual void DrawGizmos() { }
 
         public void Destroy()
         {
@@ -22,7 +24,11 @@ namespace LightlessAbyss.AbyssEngine
             IsDestroyed = true;
         }
         
-        public override bool Equals(object? obj) => obj is null ? IsDestroyed : ReferenceEquals(this, obj);
+        protected bool Equals(Behaviour other) => ReferenceEquals(this, other);
+        
+        public override int GetHashCode() => HashCode.Combine(this);
+        
+        public override bool Equals(object obj) => obj is null ? IsDestroyed : ReferenceEquals(this, obj);
 
         public static bool operator ==(Behaviour left, Behaviour right)
         {

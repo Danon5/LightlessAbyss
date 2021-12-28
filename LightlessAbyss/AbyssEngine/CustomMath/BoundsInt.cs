@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace LightlessAbyss.AbyssEngine.CustomMath
+namespace AbyssEngine.CustomMath
 {
     public struct BoundsInt
     {
