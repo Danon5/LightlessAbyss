@@ -6,16 +6,17 @@ namespace AbyssEngine
     public abstract class Behaviour : IEntityComponent, IDestroyable
     {
         public bool IsDestroyed { get; private set; }
-        
-        private Behaviour()
+
+        protected Behaviour()
         {
             Engine.RegisterBehaviour(this);
         }
         
         public virtual void Initialize() { }
-        public virtual void EarlyUpdate() { }
-        public virtual void Update() { }
-        public virtual void LateUpdate() { }
+        public virtual void EarlyTick() { }
+        public virtual void Tick() { }
+        public virtual void LateTick() { }
+        public virtual void DrawGizmos() { }
 
         public void Destroy()
         {

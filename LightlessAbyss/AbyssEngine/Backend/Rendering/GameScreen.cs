@@ -32,7 +32,7 @@ namespace AbyssEngine.Backend.Rendering
             _engine.GraphicsDevice.SetRenderTarget(null);
         }
 
-        public void Draw()
+        public void DrawToScreen()
         {
             SpriteRenderer.FullscreenDraw(_renderTarget);
         }

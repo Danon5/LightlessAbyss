@@ -99,8 +99,8 @@ namespace AbyssEngine.Backend.Rendering
                 throw new Exception("Cannot batch draw with no batch started!");
             
             color ??= Color.White;
-            
-            pos -= new CVector2(.5f, .5f);
+
+            pos -= size / 2f;
 
             CVector2 botLeft = pos;
             CVector2 topLeft = new CVector2(pos.x, pos.y + size.y);

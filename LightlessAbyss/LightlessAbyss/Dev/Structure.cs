@@ -3,7 +3,7 @@ using System.Linq;
 using AbyssEngine.CustomMath;
 using Microsoft.Xna.Framework;
 
-namespace AbyssEngine.Dev
+namespace LightlessAbyss.Dev
 {
     public class Structure
     {
@@ -32,7 +32,7 @@ namespace AbyssEngine.Dev
 
         private Dictionary<CVector2Int, StructureTile> _tiles;
         private Matrix _translationMatrix;
-        private Vector3 _position;
+        private CVector2 _position;
         private BoundsInt _bounds;
 
         private float _rotation;
@@ -55,7 +55,7 @@ namespace AbyssEngine.Dev
             return _tiles.Values.ToArray();
         }
 
-        public bool TryPlaceTileAtWorldPos(Vector3 worldPos)
+        public bool TryPlaceTileAtWorldPos(CVector2 worldPos)
         {
             CVector2Int tilePos = WorldToTile(worldPos);
 
@@ -65,7 +65,7 @@ namespace AbyssEngine.Dev
             return true;
         }
 
-        public bool TryRemoveTileAtWorldPos(Vector3 worldPos)
+        public bool TryRemoveTileAtWorldPos(CVector2 worldPos)
         {
             CVector2Int tilePos = WorldToTile(worldPos);
 
@@ -161,10 +161,10 @@ namespace AbyssEngine.Dev
 
         private void UpdateTranslationMatrix()
         {
-            _translationMatrix = CMathUtils.MatrixTRS(
+            _translationMatrix = CMath.MatrixTRS(
                 _position,
                 _rotation,
-                CVector2.One);
+                1f);
         }
     }
 }

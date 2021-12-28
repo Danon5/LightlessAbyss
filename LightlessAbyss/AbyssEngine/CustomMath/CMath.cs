@@ -3,12 +3,36 @@ using Microsoft.Xna.Framework;
 
 namespace AbyssEngine.CustomMath
 {
-    public static class CMathUtils
+    public static class CMath
     {
         public const float EPSILON = 1.175494E-38f;
         public const float RAD2DEG = 180f / MathF.PI;
         public const float DEG2RAD = MathF.PI / 180f;
 
+        public static float Abs(float value)
+        {
+            if (value < 0f)
+                value *= 1f;
+            return value;
+        }
+        
+        public static int Abs(int value)
+        {
+            if (value < 0)
+                value *= 1;
+            return value;
+        }
+        
+        public static float Sin(float value)
+        {
+            return MathF.Sin(value);
+        }
+        
+        public static float Cos(float value)
+        {
+            return MathF.Cos(value);
+        }
+        
         public static CVector2 ToVec2(this CVector2Int vec)
         {
             return new CVector2(vec.x, vec.y);
@@ -132,12 +156,26 @@ namespace AbyssEngine.CustomMath
             return NormalizeAngle(MathF.Atan2(dir.y, dir.x));
         }
         
-        public static CVector2 AngleToDirection(float angle)
+        public static CVector2 DegAngleToDirection(float angle)
         {
-            return new CVector2(MathF.Cos(angle * RAD2DEG), MathF.Sin(angle * DEG2RAD));
+            return new CVector2(Cos(angle * DEG2RAD), Sin(angle * DEG2RAD));
+        }
+        
+        public static CVector2 RadAngleToDirection(float angle)
+        {
+            return new CVector2(Cos(angle), Sin(angle));
         }
 
         public static float Clamp(float val, float min, float max)
+        {
+            if (val < min)
+                return min;
+            if (val > max)
+                return max;
+            return val;
+        }
+        
+        public static int Clamp(int val, int min, int max)
         {
             if (val < min)
                 return min;
@@ -203,12 +241,12 @@ namespace AbyssEngine.CustomMath
         
         public static CVector2 MultiplyPoint(this Matrix m, CVector2 v)
         {
-            return Microsoft.Xna.Framework.Vector2.Transform(v, m);
+            return Vector2.Transform(v, m);
         }
         
         public static CVector2 InverseMultiplyPoint(this Matrix m, CVector2 v)
         {
-            return Microsoft.Xna.Framework.Vector2.Transform(v, Matrix.Invert(m));
+            return Vector2.Transform(v, Matrix.Invert(m));
         }
     }
 }

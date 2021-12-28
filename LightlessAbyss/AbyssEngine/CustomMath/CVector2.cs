@@ -21,7 +21,7 @@ namespace AbyssEngine.CustomMath
         }
 
         public float Magnitude => MathF.Sqrt(x * x + y * y);
-        public CVector2 Normalized => CMathUtils.Approximately(Magnitude, 0f) ? Zero : new CVector2(x, y) / Magnitude;
+        public CVector2 Normalized => CMath.Approximately(Magnitude, 0f) ? Zero : new CVector2(x, y) / Magnitude;
         
         public static readonly CVector2 Zero = new CVector2(0f, 0f);
         public static readonly CVector2 One = new CVector2(1f, 1f);
@@ -37,7 +37,7 @@ namespace AbyssEngine.CustomMath
 
         public static CVector2 Lerp(CVector2 a, CVector2 b, float t)
         {
-            return new CVector2(CMathUtils.Lerp(a.x, b.x, t), CMathUtils.Lerp(a.y, b.y, t));
+            return new CVector2(CMath.Lerp(a.x, b.x, t), CMath.Lerp(a.y, b.y, t));
         }
 
         public static CVector2 operator -(CVector2 v1) => new CVector2(-v1.x, -v1.y);
@@ -66,7 +66,7 @@ namespace AbyssEngine.CustomMath
 
         public override string ToString()
         {
-            return $"({CMathUtils.RoundToDecimal(x, 2)}, {CMathUtils.RoundToDecimal(y, 2)})";
+            return $"({CMath.RoundToDecimal(x, 2)}, {CMath.RoundToDecimal(y, 2)})";
         }
     }
 }

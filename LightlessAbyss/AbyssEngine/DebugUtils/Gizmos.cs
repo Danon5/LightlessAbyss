@@ -15,11 +15,22 @@ namespace AbyssEngine.DebugUtils
             matrix = Matrix.Identity;
             color = Color.White;
         }
+
+        public static void DrawLine(CVector2 p1, CVector2 p2, float lineWidth = .01f, bool batched = false)
+        {
+            if (!batched)
+                PolygonRenderer.BeginBatch(matrix * EngineRenderer.RenderMatrix);
+            
+            PolygonRenderer.BatchDrawLine(p1, p2, color, lineWidth);
+            
+            if (!batched)
+                PolygonRenderer.EndBatch();
+        }
         
         public static void DrawWireGrid(CVector2 pos, int width, int height, bool batched = false)
         {
             if (!batched)
-                PolygonRenderer.BeginBatch(EngineRenderer.RenderMatrix * matrix);
+                PolygonRenderer.BeginBatch(matrix * EngineRenderer.RenderMatrix);
             
             CVector2 offset = new CVector2(width / 2f, height / 2f);
             pos -= offset;
@@ -50,7 +61,7 @@ namespace AbyssEngine.DebugUtils
         public static void DrawWireRectangle(CVector2 position, CVector2 size, bool batched = false)
         {
             if (!batched)
-                PolygonRenderer.BeginBatch(EngineRenderer.RenderMatrix * matrix);
+                PolygonRenderer.BeginBatch(matrix * EngineRenderer.RenderMatrix);
 
             float lineWidth = .01f * EngineRenderer.CameraOrthoSizeScaler;
             PolygonRenderer.BatchDrawWireRectangle(position, size, color, lineWidth);
@@ -62,7 +73,7 @@ namespace AbyssEngine.DebugUtils
         public static void DrawRectangle(CVector2 position, CVector2 size, bool batched = false)
         {
             if (!batched)
-                PolygonRenderer.BeginBatch(EngineRenderer.RenderMatrix * matrix);
+                PolygonRenderer.BeginBatch(matrix * EngineRenderer.RenderMatrix);
 
             PolygonRenderer.BatchDrawRectangle(position, size, color);
 
@@ -75,7 +86,7 @@ namespace AbyssEngine.DebugUtils
             if (PolygonRenderer.BatchingInProgress)
                 throw new Exception("Cannot start gizmo batch with polygon batching already in progress!");
             
-            PolygonRenderer.BeginBatch(EngineRenderer.RenderMatrix * matrix);
+            PolygonRenderer.BeginBatch(matrix * EngineRenderer.RenderMatrix);
         }
 
         public static void EndGizmoBatch()

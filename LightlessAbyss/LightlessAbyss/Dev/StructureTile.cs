@@ -1,6 +1,6 @@
 ﻿using AbyssEngine.CustomMath;
 
-namespace AbyssEngine.Dev
+namespace LightlessAbyss.Dev
 {
     public class StructureTile
     {

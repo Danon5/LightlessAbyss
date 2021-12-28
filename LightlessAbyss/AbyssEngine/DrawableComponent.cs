@@ -3,11 +3,11 @@ using AbyssEngine.Backend.Rendering;
 
 namespace AbyssEngine
 {
-    public abstract class Drawable : IEntityComponent, IDestroyable
+    public abstract class DrawableComponent : IEntityComponent, IDestroyable
     {
         public bool IsDestroyed { get; private set; }
 
-        private Drawable()
+        protected DrawableComponent()
         {
             EngineRenderer.RegisterDrawable(this);
         }
@@ -21,19 +21,19 @@ namespace AbyssEngine
             IsDestroyed = true;
         }
         
-        protected bool Equals(Drawable other) => ReferenceEquals(this, other);
+        protected bool Equals(DrawableComponent other) => ReferenceEquals(this, other);
         
         public override int GetHashCode() => HashCode.Combine(this);
         
         public override bool Equals(object obj) => obj is null ? IsDestroyed : ReferenceEquals(this, obj);
         
-        public static bool operator ==(Drawable left, Drawable right)
+        public static bool operator ==(DrawableComponent left, DrawableComponent right)
         {
             if (left is null || left.IsDestroyed)
                 return right is null || right.IsDestroyed;
             return ReferenceEquals(left, right);
         }
 
-        public static bool operator !=(Drawable left, Drawable right) => !(left == right);
+        public static bool operator !=(DrawableComponent left, DrawableComponent right) => !(left == right);
     }
 }

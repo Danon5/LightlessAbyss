@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AbyssEngine;
 using AbyssEngine.CustomMath;
 
-namespace AbyssEngine.Dev
+namespace LightlessAbyss.Dev
 {
     public sealed class WaterSimulation
     {
@@ -23,8 +24,11 @@ namespace AbyssEngine.Dev
         {
             _attachedStructure = attachedStructure;
             
-            ResizeToStructureBounds();
-            InitializeCells();
+            _bounds = _attachedStructure.Bounds;
+            
+            _cells = new WaterCell[Size.x, Size.y];
+            
+            InitializeNullCells();
             UpdateWallsFromStructureData();
         }
         
@@ -37,6 +41,9 @@ namespace AbyssEngine.Dev
         public void ResizeToStructureBounds()
         {
             _bounds = _attachedStructure.Bounds;
+            _cells = _cells.ResizeArray2D(_bounds.IntSize.x, _bounds.IntSize.y);
+            InitializeNullCells();
+            UpdateWallsFromStructureData();
         }
 
         public void ModifyWaterAtWorldPos(CVector2 worldPos, float modification)
@@ -76,12 +83,12 @@ namespace AbyssEngine.Dev
 
         public CVector2Int WorldToCell(CVector2 worldPos)
         {
-            return (worldPos - Bounds.Min).ToVec2Int();
+            return _attachedStructure.WorldToTile(worldPos) - Bounds.Min;
         }
 
         public CVector2 CellToWorld(CVector2Int cellPos)
         {
-            return cellPos + Bounds.Min;
+            return _attachedStructure.TileToWorld(cellPos) + Bounds.Min;
         }
 
         public CVector2 CellToWorld(int cellX, int cellY)
@@ -165,8 +172,8 @@ namespace AbyssEngine.Dev
             float structureAngle = _attachedStructure.Rotation;
             CVector2Int origin = new CVector2Int(originX, originY);
             
-            float worldAngle = CMathUtils.DirectionToDegAngle(worldDir) - structureAngle;
-            CVector2 unroundedOffset = CMathUtils.AngleToDirection(worldAngle);
+            float worldAngle = CMath.DirectionToDegAngle(worldDir) - structureAngle;
+            CVector2 unroundedOffset = CMath.DegAngleToDirection(worldAngle);
             float upperOffsetAngle = worldAngle + 45f;
             float lowerOffsetAngle = worldAngle - 45f;
             
@@ -177,7 +184,7 @@ namespace AbyssEngine.Dev
             CVector2Int closestOffset = upperDot > lowerDot ? upperIntOffset : lowerIntOffset;
             float closestDot = upperDot > lowerDot ? upperDot : lowerDot;
 
-            float sum = CMathUtils.Clamp01(dot) + CMathUtils.Clamp01(closestDot);
+            float sum = CMath.Clamp01(dot) + CMath.Clamp01(closestDot);
 
             dot /= sum;
             closestDot /= sum;
@@ -191,10 +198,10 @@ namespace AbyssEngine.Dev
 
         private static void CalculateIndexOffset(float angle, CVector2 unroundedOffset, out CVector2Int intOffset, out float dot)
         {
-            CVector2 offset = CMathUtils.AngleToDirection(CMathUtils.RoundToNumber(angle, 45f));
+            CVector2 offset = CMath.DegAngleToDirection(CMath.RoundToNumber(angle, 45f));
             intOffset = new CVector2Int(
-                CMathUtils.RoundToInt(offset.x),
-                CMathUtils.RoundToInt(offset.y));
+                CMath.RoundToInt(offset.x),
+                CMath.RoundToInt(offset.y));
             const float remap_scale = .71f;
             dot = CVector2.Dot(offset, unroundedOffset).Remap01(remap_scale, 1f);
         }
@@ -392,15 +399,13 @@ namespace AbyssEngine.Dev
             return cell.Value >= MIN_WATER_PER_CELL;
         }
 
-        private void InitializeCells()
+        private void InitializeNullCells()
         {
-            _cells = new WaterCell[Size.x, Size.y];
-
             for (int x = 0; x < Size.x; x++)
             {
                 for (int y = 0; y < Size.y; y++)
                 {
-                    _cells[x, y] = new WaterCell(x, y);
+                    _cells[x, y] ??= new WaterCell(x, y);
                 }
             }
         }
