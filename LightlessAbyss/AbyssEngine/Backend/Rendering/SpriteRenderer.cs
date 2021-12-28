@@ -110,9 +110,11 @@ namespace AbyssEngine.Backend.Rendering
             
             EndSpriteBatch();
         }
-        
-        private static CVector2 CalculateScale(CVector2 scale)
+
+        private static CVector2 CalculateScale(CVector2 scale, bool isWorldSpace = false)
         {
+            if (!isWorldSpace)
+                return scale;
             return new CVector2(scale.x, -scale.y) * (1f / EngineRenderer.PPU);
         }
 

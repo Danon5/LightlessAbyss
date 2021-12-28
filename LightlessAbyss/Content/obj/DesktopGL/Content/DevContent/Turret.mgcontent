@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SourceFile>C:/Dev/Monogame/LightlessAbyss/LightlessAbyss/Content/DevContent/Turret.png</SourceFile>
-  <SourceTime>2021-12-15T17:08:25.5458268-08:00</SourceTime>
-  <DestFile>C:/Dev/Monogame/LightlessAbyss/LightlessAbyss/Content/bin/DesktopGL/Content/DevContent/Turret.xnb</DestFile>
-  <DestTime>2021-12-27T21:55:45.8494668-08:00</DestTime>
+  <SourceFile>C:/Users/harry/OneDrive/Desktop/DSKTP/Dev/LightlessAbyss/LightlessAbyss/Content/DevContent/Turret.png</SourceFile>
+  <SourceTime>2021-12-28T14:25:07.7507145-08:00</SourceTime>
+  <DestFile>C:/Users/harry/OneDrive/Desktop/DSKTP/Dev/LightlessAbyss/LightlessAbyss/Content/bin/DesktopGL/Content/DevContent/Turret.xnb</DestFile>
+  <DestTime>2021-12-28T14:37:05.6559582-08:00</DestTime>
   <Importer>TextureImporter</Importer>
-  <ImporterTime>2020-08-10T16:17:54-07:00</ImporterTime>
+  <ImporterTime>2020-08-10T09:17:54-07:00</ImporterTime>
   <Processor>TextureProcessor</Processor>
-  <ProcessorTime>2020-08-10T16:17:54-07:00</ProcessorTime>
+  <ProcessorTime>2020-08-10T09:17:54-07:00</ProcessorTime>
   <Parameters>
     <Key>ColorKeyColor</Key>
     <Value>255,0,255,255</Value>

@@ -45,7 +45,7 @@ namespace AbyssEngine.Backend.Rendering
             };
         }
 
-        public static void BeginBatch(Matrix? matrix)
+        public static void BeginBatch(Matrix? matrix = null)
         {
             if (_batchingInProgress)
                 throw new Exception("Cannot start batch with batch already started!");

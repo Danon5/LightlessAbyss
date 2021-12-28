@@ -154,6 +154,8 @@ namespace AbyssEngine.Backend.Rendering
             
             DrawGame();
 
+           
+            
             _gameScreen.RemoveAsRenderTarget();
             Clear();
             _gameScreen.DrawToScreen();
