@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31321.278
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightlessAbyss", "LightlessAbyss\LightlessAbyss.csproj", "{EA3C50D9-9B2F-4035-844B-8D076B3C8F38}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EA3C50D9-9B2F-4035-844B-8D076B3C8F38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA3C50D9-9B2F-4035-844B-8D076B3C8F38}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA3C50D9-9B2F-4035-844B-8D076B3C8F38}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA3C50D9-9B2F-4035-844B-8D076B3C8F38}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6FFD3E66-0117-406C-8586-832027CD8A05}
+	EndGlobalSection
+EndGlobal

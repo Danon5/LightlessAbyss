@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "v7cQomOci61Ek5PlwGQNTGuzW94Tq6qOjLnPl6lqXtDFG6OZJziL9Ok1qs7nuwIu/e35beqsAmCJ12O+PL6CVQ==",
+  "success": true,
+  "projectFilePath": "C:\\Dev\\Monogame\\LightlessAbyss\\LightlessAbyss\\LightlessAbyss.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\danon\\.nuget\\packages\\monogame.content.builder.task\\3.8.0.1641\\monogame.content.builder.task.3.8.0.1641.nupkg.sha512",
+    "C:\\Users\\danon\\.nuget\\packages\\monogame.framework.desktopgl\\3.8.0.1641\\monogame.framework.desktopgl.3.8.0.1641.nupkg.sha512"
+  ],
+  "logs": []
+}
