@@ -1,4 +1,5 @@
 ﻿using System;
+using AbyssEngine.CustomColor;
 using AbyssEngine.CustomMath;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -21,6 +22,7 @@ namespace AbyssEngine.Backend.Rendering
         private static int _indexCount;
         private static BasicEffect _shader;
         private static bool _batchingInProgress;
+        private static bool _isScreenSpaceBatch;
         
         public PolygonRenderer(GraphicsDevice graphicsDevice)
         {
@@ -45,7 +47,7 @@ namespace AbyssEngine.Backend.Rendering
             };
         }
 
-        public static void BeginBatch(Matrix? matrix = null)
+        public static void BeginBatch(Matrix? matrix = null, bool screenSpace = false)
         {
             if (_batchingInProgress)
                 throw new Exception("Cannot start batch with batch already started!");
@@ -53,19 +55,30 @@ namespace AbyssEngine.Backend.Rendering
             _vertCount = 0;
             _indexCount = 0;
 
-            InitializeViewProjectionMatrix(matrix);
-
+            matrix ??= Matrix.Identity;
+            
+            Matrix renderMatrix = screenSpace ? EngineRenderer.PolygonScreenMatrix : EngineRenderer.CameraMatrix;
+            
+            InitializeViewProjectionMatrix(matrix * renderMatrix);
+            _isScreenSpaceBatch = screenSpace;
+            
             _batchingInProgress = true;
         }
 
-        public static void BatchDrawLine(CVector2 point1, CVector2 point2, Color? color = null, float lineWidth = .01f)
+        public static void BatchDrawLine(CVector2 point1, CVector2 point2, CColor? color = null, float lineWidth = .01f)
         {
             if (!_batchingInProgress)
                 throw new Exception("Cannot batch draw with no batch started!");
 
             EnsureBufferSpaceForPolygon(4, 6);
+
+            if (_isScreenSpaceBatch)
+            {
+                point1 = ToScreenVector(point1);
+                point2 = ToScreenVector(point2);
+            }
             
-            color ??= Color.White;
+            color ??= CColor.White;
 
             CVector2 dir = point1 - point2;
             float xExtents = dir.Magnitude / 2f;
@@ -87,18 +100,23 @@ namespace AbyssEngine.Backend.Rendering
             _indexBuffer[_indexCount++] = _vertCount + 2;
             _indexBuffer[_indexCount++] = _vertCount + 3;
             
-            _vertexBuffer[_vertCount++] = new VertexPositionColor(botLeft, (Color)color);
-            _vertexBuffer[_vertCount++] = new VertexPositionColor(topLeft, (Color)color);
-            _vertexBuffer[_vertCount++] = new VertexPositionColor(topRight, (Color)color);
-            _vertexBuffer[_vertCount++] = new VertexPositionColor(botRight, (Color)color);
+            _vertexBuffer[_vertCount++] = new VertexPositionColor(botLeft, (CColor)color);
+            _vertexBuffer[_vertCount++] = new VertexPositionColor(topLeft, (CColor)color);
+            _vertexBuffer[_vertCount++] = new VertexPositionColor(topRight, (CColor)color);
+            _vertexBuffer[_vertCount++] = new VertexPositionColor(botRight, (CColor)color);
         }
 
-        public static void BatchDrawWireRectangle(CVector2 pos, CVector2 size, Color? color = null, float lineWidth = .01f)
+        public static void BatchDrawWireRectangle(CVector2 pos, CVector2 size, CColor? color = null, float lineWidth = .01f)
         {
             if (!_batchingInProgress)
                 throw new Exception("Cannot batch draw with no batch started!");
             
-            color ??= Color.White;
+            if (_isScreenSpaceBatch)
+            {
+                pos = ToScreenVector(pos);
+            }
+            
+            color ??= CColor.White;
 
             pos -= size / 2f;
 
@@ -107,20 +125,25 @@ namespace AbyssEngine.Backend.Rendering
             CVector2 topRight = new CVector2(pos.x + size.x, pos.y + size.y);
             CVector2 botRight = new CVector2(pos.x + size.x, pos.y);
             
-            BatchDrawLine(botLeft, topLeft, (Color)color, lineWidth);
-            BatchDrawLine(topLeft, topRight, (Color)color, lineWidth);
-            BatchDrawLine(topRight, botRight, (Color)color, lineWidth);
-            BatchDrawLine(botRight, botLeft, (Color)color, lineWidth);
+            BatchDrawLine(botLeft, topLeft, (CColor)color, lineWidth);
+            BatchDrawLine(topLeft, topRight, (CColor)color, lineWidth);
+            BatchDrawLine(topRight, botRight, (CColor)color, lineWidth);
+            BatchDrawLine(botRight, botLeft, (CColor)color, lineWidth);
         }
 
-        public static void BatchDrawRectangle(CVector2 pos, CVector2 size, Color? color = null)
+        public static void BatchDrawRectangle(CVector2 pos, CVector2 size, CColor? color = null)
         {
             if (!_batchingInProgress)
                 throw new Exception("Cannot batch draw with no batch started!");
 
             EnsureBufferSpaceForPolygon(4, 6);
 
-            color ??= Color.White;
+            if (_isScreenSpaceBatch)
+            {
+                pos = ToScreenVector(pos);
+            }
+            
+            color ??= CColor.White;
             
             float xExtents = size.x / 2f;
             float yExtents = size.y / 2f;
@@ -142,10 +165,10 @@ namespace AbyssEngine.Backend.Rendering
             _indexBuffer[_indexCount++] = _vertCount + 2;
             _indexBuffer[_indexCount++] = _vertCount + 3;
             
-            _vertexBuffer[_vertCount++] = new VertexPositionColor(new CVector2(botLeftX, botLeftY), (Color)color);
-            _vertexBuffer[_vertCount++] = new VertexPositionColor(new CVector2(topLeftX, topLeftY), (Color)color);
-            _vertexBuffer[_vertCount++] = new VertexPositionColor(new CVector2(topRightX, topRightY), (Color)color);
-            _vertexBuffer[_vertCount++] = new VertexPositionColor(new CVector2(botRightX, botRightY), (Color)color);
+            _vertexBuffer[_vertCount++] = new VertexPositionColor(new CVector2(botLeftX, botLeftY), (CColor)color);
+            _vertexBuffer[_vertCount++] = new VertexPositionColor(new CVector2(topLeftX, topLeftY), (CColor)color);
+            _vertexBuffer[_vertCount++] = new VertexPositionColor(new CVector2(topRightX, topRightY), (CColor)color);
+            _vertexBuffer[_vertCount++] = new VertexPositionColor(new CVector2(botRightX, botRightY), (CColor)color);
         }
 
         public static void EndBatch()
@@ -158,18 +181,14 @@ namespace AbyssEngine.Backend.Rendering
             _batchingInProgress = false;
         }
 
-        public static void TestDraw()
-        {
-            BeginBatch(EngineRenderer.RenderMatrix);
-            
-            BatchDrawWireRectangle(CVector2.One, CVector2.One);
-
-            EndBatch();
-        }
-
         public void Dispose()
         {
             _shader?.Dispose();
+        }
+
+        private static CVector2 ToScreenVector(CVector2 vec)
+        {
+            return new CVector2(vec.x, EngineRenderer.RawGameRect.Height - vec.y);
         }
 
         private static void EnsureBufferSpaceForPolygon(int polyVertCount, int polyIndexCount)
@@ -183,14 +202,14 @@ namespace AbyssEngine.Backend.Rendering
                 Flush();
         }
         
-        private static void InitializeViewProjectionMatrix(Matrix? matrix)
+        private static void InitializeViewProjectionMatrix(Matrix? viewMatrix)
         {
-            matrix ??= Matrix.Identity;
+            viewMatrix ??= EngineRenderer.CameraMatrix;
             
             Viewport viewport = EngineRenderer.RawGameViewport;
             _shader.Projection = Matrix.CreateOrthographicOffCenter(
                 0f, viewport.Width, viewport.Height, 0f, -1, 1f);
-            _shader.View = (Matrix) matrix;
+            _shader.View = (Matrix)viewMatrix;
         }
 
         private static void Flush()

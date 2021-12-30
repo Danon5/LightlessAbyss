@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using AbyssEngine.CustomMath;
-using AbyssEngine.DebugUtils;
-using AbyssEngine.GameContent;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -49,8 +45,10 @@ namespace AbyssEngine.Backend.Rendering
         /// </summary>
         public static CVector2 DisplayedGameOffset => _gameScreen.GetDisplayedGameOffset();
         
-        public static Matrix RenderMatrix => _camera != null ? _camera.Matrix * _unitConversionMatrix : Matrix.Identity;
-        
+        public static Matrix CameraMatrix => _camera != null ? _camera.Matrix * _unitConversionMatrix : Matrix.Identity;
+
+        public static Matrix PolygonScreenMatrix => Matrix.CreateScale(1f, -1f, 1f) *
+                                                    Matrix.CreateTranslation(0f, RawGameRect.Height, 0f);
         public static float CameraOrthoSizeScaler => _camera?.OrthographicSize ?? 1f;
         public static GraphicsDevice GraphicsDevice => _graphicsDevice;
 
@@ -66,8 +64,8 @@ namespace AbyssEngine.Backend.Rendering
         private static GUIRenderer _guiRenderer;
         private static PolygonRenderer _polygonRenderer;
         private static List<DrawableComponent> _drawables;
-        private Stopwatch _stopwatch;
-        
+        private static Matrix _polygonScreenMatrix;
+
         private static Matrix _unitConversionMatrix;
 
         public EngineRenderer(Engine engine)
@@ -93,8 +91,6 @@ namespace AbyssEngine.Backend.Rendering
             _drawables = new List<DrawableComponent>();
             
             _unitConversionMatrix = Matrix.CreateScale(PPU, -PPU, 1f);
-            
-            _stopwatch = Stopwatch.StartNew();
         }
         
         public static void SetFullscreen(bool state)
@@ -154,8 +150,6 @@ namespace AbyssEngine.Backend.Rendering
             
             DrawGame();
 
-           
-            
             _gameScreen.RemoveAsRenderTarget();
             Clear();
             _gameScreen.DrawToScreen();

@@ -1,5 +1,6 @@
 ﻿using System;
 using AbyssEngine.Backend.Rendering;
+using AbyssEngine.CustomColor;
 using AbyssEngine.CustomMath;
 using Microsoft.Xna.Framework;
 
@@ -8,20 +9,24 @@ namespace AbyssEngine.DebugUtils
     public static class Gizmos
     {
         public static Matrix matrix;
-        public static Color color;
+        public static CColor color;
 
         static Gizmos()
         {
             matrix = Matrix.Identity;
-            color = Color.White;
+            color = CColor.White;
         }
 
         public static void DrawLine(CVector2 p1, CVector2 p2, float lineWidth = .01f, bool batched = false)
         {
             if (!batched)
-                PolygonRenderer.BeginBatch(matrix * EngineRenderer.RenderMatrix);
+                PolygonRenderer.BeginBatch(matrix);
             
-            PolygonRenderer.BatchDrawLine(p1, p2, color, lineWidth);
+            PolygonRenderer.BatchDrawLine(
+                p1, 
+                p2, 
+                color,
+                lineWidth);
             
             if (!batched)
                 PolygonRenderer.EndBatch();
@@ -30,7 +35,7 @@ namespace AbyssEngine.DebugUtils
         public static void DrawWireGrid(CVector2 pos, int width, int height, bool batched = false)
         {
             if (!batched)
-                PolygonRenderer.BeginBatch(matrix * EngineRenderer.RenderMatrix);
+                PolygonRenderer.BeginBatch(matrix);
             
             CVector2 offset = new CVector2(width / 2f, height / 2f);
             pos -= offset;
@@ -61,10 +66,14 @@ namespace AbyssEngine.DebugUtils
         public static void DrawWireRectangle(CVector2 position, CVector2 size, bool batched = false)
         {
             if (!batched)
-                PolygonRenderer.BeginBatch(matrix * EngineRenderer.RenderMatrix);
+                PolygonRenderer.BeginBatch(matrix);
 
             float lineWidth = .01f * EngineRenderer.CameraOrthoSizeScaler;
-            PolygonRenderer.BatchDrawWireRectangle(position, size, color, lineWidth);
+            PolygonRenderer.BatchDrawWireRectangle(
+                position, 
+                size, 
+                color, 
+                lineWidth);
 
             if (!batched)
                 PolygonRenderer.EndBatch();
@@ -73,9 +82,12 @@ namespace AbyssEngine.DebugUtils
         public static void DrawRectangle(CVector2 position, CVector2 size, bool batched = false)
         {
             if (!batched)
-                PolygonRenderer.BeginBatch(matrix * EngineRenderer.RenderMatrix);
+                PolygonRenderer.BeginBatch(matrix);
 
-            PolygonRenderer.BatchDrawRectangle(position, size, color);
+            PolygonRenderer.BatchDrawRectangle(
+                position, 
+                size, 
+                color);
 
             if (!batched)
                 PolygonRenderer.EndBatch();
@@ -86,7 +98,7 @@ namespace AbyssEngine.DebugUtils
             if (PolygonRenderer.BatchingInProgress)
                 throw new Exception("Cannot start gizmo batch with polygon batching already in progress!");
             
-            PolygonRenderer.BeginBatch(matrix * EngineRenderer.RenderMatrix);
+            PolygonRenderer.BeginBatch(matrix);
         }
 
         public static void EndGizmoBatch()

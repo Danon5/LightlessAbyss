@@ -8,6 +8,7 @@ namespace AbyssEngine.CustomMath
         public const float EPSILON = 1.175494E-38f;
         public const float RAD2DEG = 180f / MathF.PI;
         public const float DEG2RAD = MathF.PI / 180f;
+        public const float VERY_SMALL_NUMBER = .0000000000001f;
 
         public static float Abs(float value)
         {
@@ -184,6 +185,28 @@ namespace AbyssEngine.CustomMath
             return val;
         }
 
+        public static float Max(params float[] values)
+        {
+            float max = values[0];
+            foreach (float val in values)
+            {
+                if (val > max)
+                    max = val;
+            }
+            return max;
+        }
+        
+        public static float Min(params float[] values)
+        {
+            float min = values[0];
+            foreach (float val in values)
+            {
+                if (val < min)
+                    min = val;
+            }
+            return min;
+        }
+        
         public static CVector2 Clamp(CVector2 val, CVector2 min, CVector2 max)
         {
             return new CVector2(Clamp(val.x, min.x, max.x), Clamp(val.y, min.y, max.y));

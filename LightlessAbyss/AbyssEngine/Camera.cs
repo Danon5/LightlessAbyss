@@ -83,12 +83,12 @@ namespace AbyssEngine
 
         public CVector2 ScreenToWorld(CVector2 screenPos)
         {
-            return EngineRenderer.RenderMatrix.InverseMultiplyPoint(ClampInScreen(RemapDisplayPosToRaw(screenPos)));
+            return EngineRenderer.CameraMatrix.InverseMultiplyPoint(ClampInScreen(RemapDisplayPosToRaw(screenPos)));
         }
         
         public CVector2 WorldToScreen(CVector2 worldPos)
         {
-            return ClampInScreen(RemapDisplayPosToRaw(EngineRenderer.RenderMatrix.MultiplyPoint(worldPos)));
+            return ClampInScreen(RemapDisplayPosToRaw(EngineRenderer.CameraMatrix.MultiplyPoint(worldPos)));
         }
 
         private CVector2 RemapDisplayPosToRaw(CVector2 screenPos)

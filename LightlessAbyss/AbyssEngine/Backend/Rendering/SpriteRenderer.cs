@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using AbyssEngine.CustomColor;
 using AbyssEngine.CustomMath;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -43,20 +44,20 @@ namespace AbyssEngine.Backend.Rendering
         }
 
         public static void DrawBatchedSprite(Texture2D tex, CVector2 position, float rotation, 
-            CVector2? scale = null, Color? color = null, OriginMode originMode = OriginMode.Center, 
+            CVector2? scale = null, CColor? color = null, OriginMode originMode = OriginMode.Center, 
             SpriteEffects effect = SpriteEffects.None, float layerDepth = 0f, bool batched = false)
         {
             if (!_batchInProgress)
                 throw new Exception("Cannot batch draw with no batch started!");
 
             scale ??= new CVector2(1f, 1f);
-            color ??= Color.White;
+            color ??= CColor.White;
 
             _sharedSpriteBatch.Draw(
                 tex, 
                 position, 
                 null, 
-                (Color)color, 
+                (CColor)color, 
                 rotation, 
                 CalculateOrigin(tex, originMode), 
                 CalculateScale(scale.Value), 
@@ -75,7 +76,7 @@ namespace AbyssEngine.Backend.Rendering
         }
 
         public static void IndividualDraw(Texture2D tex, CVector2 position, float rotation, CVector2? scale = null,
-            Color? color = null, OriginMode originMode = OriginMode.Center, CVector2 customOrigin = default,
+            CColor? color = null, OriginMode originMode = OriginMode.Center, CVector2 customOrigin = default,
             SpriteEffects effect = SpriteEffects.None, float layerDepth = 0f, Matrix? matrix = null)
         {
             if (_batchInProgress)
@@ -86,13 +87,13 @@ namespace AbyssEngine.Backend.Rendering
             BeginSpriteBatch(SpriteSortMode.Immediate, matrix);
             
             scale ??= new CVector2(1f, 1f);
-            color ??= Color.White;
+            color ??= CColor.White;
 
             _sharedSpriteBatch.Draw(
                 tex, 
                 position, 
                 null, 
-                (Color)color, 
+                (CColor)color, 
                 rotation, 
                 CalculateOrigin(tex, originMode, customOrigin), 
                 CalculateScale(scale.Value), 
@@ -106,7 +107,7 @@ namespace AbyssEngine.Backend.Rendering
         {
             BeginSpriteBatch(SpriteSortMode.Immediate, Matrix.Identity);
             
-            _sharedSpriteBatch.Draw(tex, EngineRenderer.DisplayedGameRect, Color.White);
+            _sharedSpriteBatch.Draw(tex, EngineRenderer.DisplayedGameRect, CColor.White);
             
             EndSpriteBatch();
         }
@@ -137,7 +138,7 @@ namespace AbyssEngine.Backend.Rendering
             public CVector2 position;
             public float rotation;
             public CVector2 scale;
-            public Color color;
+            public CColor color;
             public OriginMode originMode;
             public SpriteEffects effect;
             public float layerDepth;

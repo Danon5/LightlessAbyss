@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using AbyssEngine;
+using AbyssEngine.CustomColor;
 using AbyssEngine.CustomMath;
 using AbyssEngine.DebugUtils;
-using Microsoft.Xna.Framework;
 
 namespace LightlessAbyss.Dev
 {
@@ -39,21 +39,21 @@ namespace LightlessAbyss.Dev
             base.DrawGizmos();
             
             if (_structure == null) return;
-
-            Gizmos.color = Color.Red;
+            
             Gizmos.matrix = _structure.TranslationMatrix;
             Gizmos.StartGizmoBatch();
             
             CVector2 offset = new CVector2(.5f, .5f);
             
+            Gizmos.color = CColor.Red;
             foreach (StructureTile tile in _structure.GetTiles())
                 Gizmos.DrawRectangle(tile.TilePosition + offset, CVector2.One, true);
             
-            Gizmos.color = Color.Yellow;
+            Gizmos.color = CColor.Yellow;
 
             Gizmos.DrawWireRectangle(_structure.Bounds.Center, _structure.Bounds.Size, true);
             
-            Gizmos.color = new Color(.5f, 1f, .5f, .25f);
+            Gizmos.color = new CColor(.5f, 1f, .5f, .25f);
             
             foreach (Room room in _rooms)
             {

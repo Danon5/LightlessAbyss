@@ -197,7 +197,7 @@ namespace LightlessAbyss.Dev
 
                     if (cell.IsWall)
                     {
-                        Color wallCol = new Color(1f, 0f, 0f, .25f);
+                        Color wallCol = new Color(1f, 0f, 0f, .5f);
 
                         Gizmos.color = wallCol;
                         Gizmos.DrawRectangle(simOrigin + offset, CVector2.One, true);

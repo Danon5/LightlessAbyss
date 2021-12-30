@@ -1,7 +1,7 @@
 ﻿using System;
+using AbyssEngine.CustomColor;
 using AbyssEngine.CustomMath;
 using AbyssEngine.GameContent;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace AbyssEngine.Backend.Rendering
@@ -24,17 +24,14 @@ namespace AbyssEngine.Backend.Rendering
 
         // TODO: GUI batching, rename DrawText to IndividualDrawText
         
-        public static void DrawText(string text, CVector2 position, Color? color = null, FontId font = FontId.Default)
+        public static void DrawText(string text, CVector2 position, CColor? color = null, FontId font = FontId.Default)
         {
-            color ??= Color.White;
+            color ??= CColor.White;
             
             _sharedSpriteBatch.Begin(SpriteSortMode.Immediate);
 
-            Rectangle viewport = EngineRenderer.DisplayedGameRect;
-            CVector2 viewportOffset = new CVector2(viewport.X, viewport.Y);
-            
             SpriteFont spriteFont = ContentDatabase.GetFont(font);
-            _sharedSpriteBatch.DrawString(spriteFont, text, position + viewportOffset, (Color)color);
+            _sharedSpriteBatch.DrawString(spriteFont, text, position, (CColor)color);
             
             _sharedSpriteBatch.End();
         }
