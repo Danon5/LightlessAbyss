@@ -13,7 +13,11 @@ namespace AbyssEngine.CustomMath
         public CVector2Int IntSize => (CVector2Int)_size;
         public CVector2 Extents => _extents;
         public CVector2Int IntExtents => (CVector2Int)_extents;
-        
+        public int Top => Max.y;
+        public int Bottom => Min.y;
+        public int Right => Max.x;
+        public int Left => Min.x;
+
         private CVector2Int _min;
         private CVector2Int _max;
         private CVector2 _center;

@@ -1,11 +1,12 @@
 ﻿using System;
+using AbyssEngine.CustomMath;
 
 namespace LightlessAbyss.Dev
 {
     public sealed class WaterCell
     {
-        public readonly int x;
-        public readonly int y;
+        public readonly CVector2Int cellPos;
+        
         public float Value
         {
             get => _value;
@@ -23,10 +24,9 @@ namespace LightlessAbyss.Dev
         private float _value;
         private float _maxValue = WaterSimulation.MAX_WATER_PER_CELL;
 
-        public WaterCell(int x, int y)
+        public WaterCell(CVector2Int cellPos)
         {
-            this.x = x;
-            this.y = y;
+            this.cellPos = cellPos;
         }
         
         public void TransferTo(WaterCell dest, float amount)

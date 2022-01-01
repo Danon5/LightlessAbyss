@@ -1,4 +1,5 @@
 ﻿using AbyssEngine;
+using AbyssEngine.CustomColor;
 using AbyssEngine.CustomMath;
 using AbyssEngine.DebugUtils;
 using Microsoft.Xna.Framework;
@@ -8,7 +9,7 @@ namespace LightlessAbyss.Dev
     public sealed class DevWaterSimulator : Behaviour
     {
         private bool _doMovement;
-        private bool _doRotation = true;
+        private bool _doRotation;
         private bool _cameraFollowMovement;
         private bool _cameraFollowRotation;
         private bool _drawTilemapGizmos = true;
@@ -34,6 +35,7 @@ namespace LightlessAbyss.Dev
             _waterSim = new WaterSimulation(_structure);
         }
 
+        private bool _removingTiles;
         public override void Tick()
         {
             base.Tick();
@@ -43,16 +45,22 @@ namespace LightlessAbyss.Dev
                     CMath.Sin(Time.TotalTime / 2f) * 8f, CMath.Cos(Time.TotalTime / 2f) * 4f);
             if (_doRotation)
                 _structure.Rotation = CMath.Sin(Time.TotalTime / 4f) * 180f;
+            
+            CVector2 worldMousePos = Controls.MouseWorldPosition;
+
+            if (Controls.UseItemAltAbility.IsPressed)
+                _removingTiles = _structure.HasTileAtWorldPos(worldMousePos);
 
             if (Controls.UseItem.IsHeld)
             {
-                CVector2 worldMousePos = Controls.MouseWorldPosition;
                 _waterSim.ModifyWaterAtWorldPos(worldMousePos, 50f * Time.DeltaTime);
             }
             else if (Controls.UseItemAltAbility.IsHeld)
             {
-                CVector2 worldMousePos = Controls.MouseWorldPosition;
-                _structure.TryPlaceTileAtWorldPos(worldMousePos);
+                if (_removingTiles)
+                    _structure.TryRemoveTileAtWorldPos(worldMousePos);
+                else
+                    _structure.TryPlaceTileAtWorldPos(worldMousePos);
                 _waterSim.ResizeToStructureBounds();
             }
             
@@ -182,41 +190,23 @@ namespace LightlessAbyss.Dev
             
             Gizmos.StartGizmoBatch();
             
-            Gizmos.color = Color.Yellow;
+            Gizmos.color = CColor.Yellow;
             Gizmos.DrawWireRectangle(_waterSim.Bounds.Center, _waterSim.Bounds.Size, true);
 
-            CVector2 simOrigin = _waterSim.Bounds.Center - _waterSim.Bounds.Size / 2f + new CVector2(.5f, .5f);
-
-            for (int x = 0; x < _waterSim.Size.x; x++)
+            CVector2 gridOffset = new CVector2(.5f, .5f);
+            
+            foreach ((CVector2Int cellPos, WaterCell cell) in _waterSim.Cells)
             {
-                for (int y = 0; y < _waterSim.Size.y; y++)
+                if (cell.IsWall)
                 {
-                    CVector2 offset = new CVector2(x, y);
-
-                    if (!_waterSim.TryGetCellAtIndex(x, y, out WaterCell cell)) continue;
-
-                    if (cell.IsWall)
-                    {
-                        Color wallCol = new Color(1f, 0f, 0f, .5f);
-
-                        Gizmos.color = wallCol;
-                        Gizmos.DrawRectangle(simOrigin + offset, CVector2.One, true);
-                        continue;
-                    }
-
-                    Color col = new Color(0f, 0f, 0f, 0f);
-
-                    if (cell.Value >= WaterSimulation.MIN_WATER_PER_CELL)
-                    {
-                        col = new Color(0f, .25f, 1f, cell.Value / cell.MaxValue);
-
-                        if (cell.Value > cell.MaxValue)
-                            col = Color.Lerp(col, new Color(0f, .2f, .4f, col.A / 255f),
-                                (cell.Value - cell.MaxValue) / 2f);
-                    }
-
-                    Gizmos.color = col;
-                    Gizmos.DrawRectangle(simOrigin + offset, CVector2.One, true);
+                    Gizmos.color = new CColor(1f, 0f, 0f, .5f);
+                    Gizmos.DrawRectangle(cellPos + gridOffset, CVector2.One, true);
+                }
+                else if (cell.Value > 0f)
+                {
+                    float alpha = cell.Value / cell.MaxValue;
+                    Gizmos.color = new CColor(0f, .25f, 1f, alpha);
+                    Gizmos.DrawRectangle(cellPos + gridOffset, CVector2.One, true);
                 }
             }
             

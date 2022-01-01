@@ -207,6 +207,28 @@ namespace AbyssEngine.CustomMath
             return min;
         }
         
+        public static int Max(params int[] values)
+        {
+            int max = values[0];
+            foreach (int val in values)
+            {
+                if (val > max)
+                    max = val;
+            }
+            return max;
+        }
+        
+        public static int Min(params int[] values)
+        {
+            int min = values[0];
+            foreach (int val in values)
+            {
+                if (val < min)
+                    min = val;
+            }
+            return min;
+        }
+        
         public static CVector2 Clamp(CVector2 val, CVector2 min, CVector2 max)
         {
             return new CVector2(Clamp(val.x, min.x, max.x), Clamp(val.y, min.y, max.y));

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using AbyssEngine.CustomMath;
 
 namespace AbyssEngine
@@ -11,7 +12,7 @@ namespace AbyssEngine
 
             int width = arr.GetLength(0);
             int height = arr.GetLength(1);
-            
+
             for (int x = 0; x < width; x++)
             {
                 for (int y = 0; y < height; y++)
@@ -22,7 +23,7 @@ namespace AbyssEngine
 
             return resized;
         }
-        
+
         public static T GetRandomElementOfList<T>(this List<T> list)
         {
             return list[CRandom.Range(0, list.Count)];

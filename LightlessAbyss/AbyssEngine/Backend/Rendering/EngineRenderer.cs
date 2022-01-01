@@ -142,18 +142,17 @@ namespace AbyssEngine.Backend.Rendering
             color ??= Color.Black;
             _graphicsDevice.Clear((Color)color);
         }
-        
+
         public void RenderNewFrame()
         {
             _gameScreen.SetAsRenderTarget();
             Clear(new Color(.2f, .2f, .2f, 1f));
-            
             DrawGame();
-
             _gameScreen.RemoveAsRenderTarget();
-            Clear();
-            _gameScreen.DrawToScreen();
 
+            Clear();
+            
+            _gameScreen.DrawToScreen();
             DrawGizmos();
             DrawGUI();
         }

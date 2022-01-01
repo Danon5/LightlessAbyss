@@ -26,6 +26,7 @@ namespace AbyssEngine.Backend.Rendering
         
         public static void DrawText(string text, CVector2 position, CColor? color = null, FontId font = FontId.Default)
         {
+            position += EngineRenderer.DisplayedGameOffset;
             color ??= CColor.White;
             
             _sharedSpriteBatch.Begin(SpriteSortMode.Immediate);
